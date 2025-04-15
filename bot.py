@@ -23,38 +23,53 @@ TOKEN = os.getenv('DISCORD_TOKEN')
 bot = commands.Bot(command_prefix='!',intents=intents)
 # bot = commands.Bot(command_prefix='!')
 
-@bot.command(name='kcls', help='not helping you')
+#-------------------------------------------------
+# empty command
+
+# command name is frizz, below is example of how to use it
+# !frizz 
+@bot.command(name='frizz', help='n/a')
+async def chooseQuoteFR(ctx):
+	frizz_quotes = [
+		'whats up'
+        # put phrases in quotation marks
+        # multiple phrases can be separated by comma 
+
+        # 'new phrase'
+	]
+    
+    # quote will be picked randomly after command is used
+	response = random.choice(frizz_quotes) 
+     
+    # wait to see if bot will work
+	await ctx.send(response)
+
+#-------------------------------------------------
+
+
+# Example function with random phrases
+@bot.command(name='kcls', help='n/a')
 async def chooseQuoteKC(ctx):
 	kc_quotes = [
 		'classic KC :rofl:',
 		'you are changing the game!! :rofl:',
 		'now this, is gonna turn my world upside down :rofl:',
-		'hack my life why don\'t ya! :rofl:',
-		'now this is pod racing :rofl:',
-		'asklsdfjklaeh'
+		'hack my life why don\'t ya! :rofl:'
 	]
 
 	response = random.choice(kc_quotes)
 	await ctx.send(response)
 
-@bot.command(name='frizz', help='not helping you')
-async def chooseQuoteFR(ctx):
-	frizz_quotes = [
-		'whats up',
-		# 'good evening fuckers',
-		# 'good morning fuckers',
-		# 'good night fuckers',
-		# 'sleep tight fuckers'
-	]
 
-	response = random.choice(frizz_quotes)
-	await ctx.send(response)
-
+# Main function displaying use of APIs
 @bot.command(name='disneymovie', help='Get a random Disney movie')
 async def get_disney_movie(ctx):
+    # disney movie online api I found
     url = 'https://apidisneymovies.bsite.net/api/v1/movies/all'
     response = requests.get(url)
     
+    # uses available information - title, year, image, and rating
+    # excludes movie ID
     if response.status_code == 200:
         movies = response.json()
         if movies:
@@ -64,6 +79,7 @@ async def get_disney_movie(ctx):
             movie_year = movie.get('year', 'Unknown Year')
             movie_image = movie.get('image', None) # embed
             
+            # backgound for message with image
             embed = discord.Embed(title=movie_title, color=discord.Color.blue())
             embed.add_field(name="Release Year", value=movie_year,inline=True)
             
